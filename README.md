@@ -1,6 +1,6 @@
 # ZPI IFIND
 
-[![npm version](https://badge.fury.io/js/zpi-ifind.svg)](https://badge.fury.io/js/zpi-ifind)
+[![Build Status](https://travis-ci.org/bakaoh/zpi-ifind.svg?branch=master)](https://travis-ci.org/bakaoh/zpi-ifind) [![npm version](https://badge.fury.io/js/zpi-ifind.svg)](https://badge.fury.io/js/zpi-ifind)
 
 ## Usage
 
