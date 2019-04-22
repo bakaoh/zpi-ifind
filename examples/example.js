@@ -11,7 +11,6 @@ try {
   const receiverPrivate = loadPrivateKey('testdata/ifind/private.pem');
   const senderPublic = loadPublicKey('testdata/zpi/public.pem');
 
-  console.dir(receiverPrivate);
   const message = decryptAndVerify(
     data,
     receiverPrivate,
