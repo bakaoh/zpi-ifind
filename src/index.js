@@ -5,6 +5,9 @@ const base58 = require('bs58');
 const SIGN_LEN = 700;
 
 const generateKey = (privateFile, publicFile) => {
+  if (typeof crypto.generateKeyPairSync !== 'function') {
+    throw new Error('Requires nodejs >= v10.12.0');
+  }
   const key = crypto.generateKeyPairSync('rsa', {
     modulusLength: 4096,
     publicKeyEncoding: {
@@ -21,18 +24,20 @@ const generateKey = (privateFile, publicFile) => {
   fs.writeFileSync(publicFile, key.publicKey);
 };
 
-const loadPrivateKey = filePath => crypto.createPrivateKey({
-  key: fs.readFileSync(filePath),
-  format: 'pem',
-  type: 'pkcs1',
-  passphrase: ''
-});
+const loadPrivateKey = filePath => (typeof crypto.createPrivateKey === 'function'
+  ? crypto.createPrivateKey({
+    key: fs.readFileSync(filePath),
+    format: 'pem',
+    type: 'pkcs1',
+    passphrase: ''
+  }) : fs.readFileSync(filePath));
 
-const loadPublicKey = filePath => crypto.createPublicKey({
-  key: fs.readFileSync(filePath),
-  format: 'pem',
-  type: 'pkcs1'
-});
+const loadPublicKey = filePath => (typeof crypto.createPublicKey === 'function'
+  ? crypto.createPublicKey({
+    key: fs.readFileSync(filePath),
+    format: 'pem',
+    type: 'pkcs1'
+  }) : fs.readFileSync(filePath));
 
 const encrypt = (message, publicKey) => {
   const encMessBuffer = crypto.publicEncrypt({
