@@ -73,7 +73,7 @@ const verify = (message, signature, publicKey) => {
 const signAndEncrypt = (message, receiverPublicKey, senderPrivateKey) => {
   const encMess = encrypt(message, receiverPublicKey);
   const sig = sign(message, senderPrivateKey);
-  return sig + '_' + encMess;
+  return `${sig}_${encMess}`;
 };
 
 const decryptAndVerify = (text, receiverPrivateKey, senderPublicKey) => {
