@@ -2,8 +2,6 @@ const crypto = require('crypto');
 const fs = require('fs');
 const base58 = require('bs58');
 
-const SIGN_LEN = 700;
-
 const generateKey = (privateFile, publicFile) => {
   if (typeof crypto.generateKeyPairSync !== 'function') {
     throw new Error('Requires nodejs >= v10.12.0');
@@ -75,12 +73,16 @@ const verify = (message, signature, publicKey) => {
 const signAndEncrypt = (message, receiverPublicKey, senderPrivateKey) => {
   const encMess = encrypt(message, receiverPublicKey);
   const sig = sign(message, senderPrivateKey);
-  return sig + encMess;
+  return sig + '_' + encMess;
 };
 
 const decryptAndVerify = (text, receiverPrivateKey, senderPublicKey) => {
-  const sig = text.slice(0, SIGN_LEN);
-  const encMess = text.slice(SIGN_LEN, text.length);
+  const parts = text.split('_');
+  if (parts.length !== 2) {
+    throw new Error('Invalid format');
+  }
+  const sig = parts[0];
+  const encMess = parts[1];
   const message = decrypt(encMess, receiverPrivateKey);
   if (verify(message, sig, senderPublicKey) === false) {
     throw new Error('Signature does not match');

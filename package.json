@@ -1,6 +1,6 @@
 {
   "name": "zpi-ifind",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Utils to integrate ifind with zpi",
   "main": "./lib/index.js",
   "scripts": {
